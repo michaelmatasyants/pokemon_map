@@ -50,8 +50,4 @@ class PokemonEntity(models.Model):
                                   null=True)
 
     def __str__(self):
-        if self.disappeared_at <= localtime():
-            return f"{self.pokemon} Исчез: {self.disappeared_at}"
-        if self.appeared_at > localtime():
-            return f"{self.pokemon} Появится: {self.appeared_at}"
-        return f"{self.pokemon} Исчезнет: {self.disappeared_at}"
+        return f"{self.pokemon} Широта: {self.lat} Долгота: {self.lon}"
