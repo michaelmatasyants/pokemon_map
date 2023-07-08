@@ -38,11 +38,16 @@ class PokemonEntity(models.Model):
                                        null=True)
     disappeared_at = models.DateTimeField(verbose_name='Исчез',
                                           null=True)
-    level = models.IntegerField(verbose_name='Уровень')
-    health = models.IntegerField(verbose_name='Здоровье')
-    strength = models.IntegerField(verbose_name='Сила')
-    defence = models.IntegerField(verbose_name='Защита')
-    stamina = models.IntegerField(verbose_name='Выносливость')
+    level = models.IntegerField(verbose_name='Уровень',
+                                null=True)
+    health = models.IntegerField(verbose_name='Здоровье',
+                                 null=True)
+    strength = models.IntegerField(verbose_name='Сила',
+                                   null=True)
+    defence = models.IntegerField(verbose_name='Защита',
+                                  null=True)
+    stamina = models.IntegerField(verbose_name='Выносливость',
+                                  null=True)
 
     def __str__(self):
         if self.disappeared_at <= localtime():
