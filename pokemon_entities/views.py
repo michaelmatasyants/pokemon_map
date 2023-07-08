@@ -2,8 +2,8 @@ import folium
 
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
-from pokemon_entities.models import Pokemon, PokemonEntity
 from django.utils.timezone import localtime
+from pokemon_entities.models import Pokemon, PokemonEntity
 
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = (
@@ -27,9 +27,10 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
 
 
 def show_all_pokemons(request):
+    now = localtime()
     pokemon_entities_queryset = PokemonEntity.objects.select_related(
-        'pokemon').exclude(appeared_at__gt=localtime()).exclude(
-        disappeared_at__lte=localtime())
+        'pokemon').exclude(appeared_at__gt=now).exclude(
+        disappeared_at__lte=now)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemon_entities_queryset:
         add_pokemon(
@@ -57,6 +58,7 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
+    now = localtime()
     pokemons = Pokemon.objects.all()
     for pokemon in pokemons:
         if pokemon.id == int(pokemon_id):
@@ -67,7 +69,7 @@ def show_pokemon(request, pokemon_id):
 
     pokemon_entities_queryset = PokemonEntity.objects.select_related(
         'pokemon').filter(pokemon=requested_pokemon).exclude(
-        disappeared_at__lte=localtime()).exclude(appeared_at__gt=localtime())
+        disappeared_at__lte=now).exclude(appeared_at__gt=now)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     for pokemon_entity in pokemon_entities_queryset:
         add_pokemon(
