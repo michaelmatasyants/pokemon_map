@@ -1,43 +1,43 @@
-# Карта покемонов
+# Pokemon map
 
 ![screenshot](https://dvmn.org/filer/canonical/1563275070/172/)
 
-### Предметная область
+### Subject area
 
-Сайт для помощи по игре [Pokemon GO](https://www.pokemongo.com/en-us/). Это игра про ловлю [покемонов](https://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D0%BA%D0%B5%D0%BC%D0%BE%D0%BD).
+This site was created to help with the game [Pokemon GO](https://www.pokemongo.com/en-us/). It's a game about catching [Pokemons](https://en.wikipedia.org/wiki/Pok%C3%A9mon).
 
-Суть игры в том, что на карте периодически появляются покемоны, на определённый промежуток времени. Каждый игрок может поймать себе покемона, и пополнить свою личную коллекцию.
+The essence of the game is that pokemon periodically appear on the map, for a certain period of time. Each player can catch a pokemon to add to his personal collection.
 
-На карте может быть сразу несколько особей одного и того же покемона: например, 3 Бульбазавра. Каждую особь могут поймать сразу несколько игроков. Если игрок поймал себе особь покемона, она исчезает для него, но остаётся для других.
+There can be several individuals of the same pokemon on the map at once: for example, 3 Bulbasaurus. Each individual can be caught by several players at once. If a player catches a pokemon specimen, it disappears for him, but remains for others.
 
-В игре есть механика эволюции. Покемон одного вида может "эволюционировать" в другого. Так, например, Бульбазавр превращается в Ивизавра, а тот превращается в Венузавра.
+Pokemon of one species can "evolve" into another. For example, Bullbasaurus transforms into Ivesaurus, and the latter transforms into Venusaurus.
 
 ![bulba evolution](https://dvmn.org/filer/canonical/1562265973/167/)
 
-### Как запустить
+### How to run
 
-Для запуска сайта вам понадобится Python третьей версии.
+1. Firstly, you have to install python and pip (package-management system) if they haven't been already installed.
 
-Скачайте код с GitHub. Затем установите зависимости
+2. Create a virtual environment with its own independent set of packages using [virtualenv/venv](https://docs.python.org/3/library/venv.html). It'll help you to isolate the project from the packages located in the base environment.
 
-```sh
-pip install -r requirements.txt
-```
+3. Install all the packages used in this project, in your virtual environment which you've created on the step 2. Use the `requirements.txt` file to install dependencies:
+    ```sh
+    pip install -r requirements.txt
+    ```
 
-Запустите разработческий сервер
+4. Run the server for development:
+    ```sh
+    python3 manage.py runserver
+    ```
 
-```sh
-python3 manage.py runserver
-```
+### Environment variables
 
-### Переменные окружения
+Some of the project settings come from environment variables. To define them, create a file `.env` next to `manage.py` and write data in this format: `VARIABLE=value`.
 
-Часть настроек проекта берётся из переменных окружения. Чтобы их определить, создайте файл `.env` рядом с `manage.py` и запишите туда данные в таком формате: `ПЕРЕМЕННАЯ=значение`.
+Two variables are available:
+- `DEBUG` — debug mode. Set it to True to see debugging information in case of an error.
+- `SECRET_KEY` — project secret key
 
-Доступны 2 переменные:
-- `DEBUG` — дебаг-режим. Поставьте True, чтобы увидеть отладочную информацию в случае ошибки.
-- `SECRET_KEY` — секретный ключ проекта
+## Project Objectives
 
-## Цели проекта
-
-Код написан в учебных целях — это урок в курсе по Python и веб-разработке на сайте [Devman](https://dvmn.org).
+The code is written for educational purposes
