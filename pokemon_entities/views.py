@@ -1,6 +1,6 @@
 import folium
 
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpRequest
 from django.shortcuts import render
 from django.utils.timezone import localtime
 from pokemon_entities.models import Pokemon, PokemonEntity
@@ -11,6 +11,12 @@ DEFAULT_IMAGE_URL = (
     '/latest/fixed-aspect-ratio-down/width/240/height/240?cb=20130525215832'
     '&fill=transparent'
 )
+
+
+def get_image_url(request: HttpRequest, pokemon: Pokemon) -> str:
+    if pokemon.image:
+        return request.build_absolute_uri(pokemon.image.url)
+    return DEFAULT_IMAGE_URL
 
 
 def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
@@ -36,18 +42,15 @@ def show_all_pokemons(request):
         add_pokemon(
             folium_map, pokemon_entity.lat,
             pokemon_entity.lon,
-            request.build_absolute_uri(pokemon_entity.pokemon.image.url),
+            get_image_url(request, pokemon_entity.pokemon),
         )
 
     pokemons = Pokemon.objects.all()
     pokemons_on_page = []
     for pokemon in pokemons:
-        img_url = DEFAULT_IMAGE_URL
-        if pokemon.image:
-            img_url = request.build_absolute_uri(pokemon.image.url)
         pokemons_on_page.append({
             'pokemon_id': pokemon.id,
-            'img_url': img_url,
+            'img_url': get_image_url(request, pokemon),
             'title_ru': pokemon.title,
         })
 
@@ -75,7 +78,7 @@ def show_pokemon(request, pokemon_id):
         add_pokemon(
             folium_map, pokemon_entity.lat,
             pokemon_entity.lon,
-            request.build_absolute_uri(pokemon_entity.pokemon.image.url),
+            get_image_url(request, pokemon_entity.pokemon),
         )
 
     previous_evolution, next_evolution = {}, {}
