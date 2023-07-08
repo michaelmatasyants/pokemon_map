@@ -5,6 +5,12 @@ class Pokemon(models.Model):
     title_en = models.CharField(max_length=200, blank=True)
     title_jp = models.CharField(max_length=200, blank=True)
     description = models.TextField(blank=True)
+    next_evolution = models.ForeignKey("self",
+                                       verbose_name='Из кого эволюционирует',
+                                       null=True,
+                                       blank=True,
+                                       related_name="previous_evolutions",
+                                       on_delete=models.SET_NULL)
     image = models.ImageField(upload_to='', null=True)
 
     def __str__(self):
