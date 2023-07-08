@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.timezone import localtime
+
 
 class Pokemon(models.Model):
     title = models.CharField(verbose_name='Название:',
@@ -24,6 +26,7 @@ class Pokemon(models.Model):
     def __str__(self):
         return self.title
 
+
 class PokemonEntity(models.Model):
     pokemon = models.ForeignKey(Pokemon,
                                 verbose_name='Покемон',
@@ -40,3 +43,10 @@ class PokemonEntity(models.Model):
     strength = models.IntegerField(verbose_name='Сила')
     defence = models.IntegerField(verbose_name='Защита')
     stamina = models.IntegerField(verbose_name='Выносливость')
+
+    def __str__(self):
+        if self.disappeared_at <= localtime():
+            return f"{self.pokemon} Исчез: {self.disappeared_at}"
+        if self.appeared_at > localtime():
+            return f"{self.pokemon} Появится: {self.appeared_at}"
+        return f"{self.pokemon} Исчезнет: {self.disappeared_at}"
